@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { Container, List, Item, Info, Button } from './styles'
 import Api from '../../services/api'
@@ -20,12 +21,8 @@ class Home extends Component {
   }
 
   handleAddToCart = product => {
-    const { dispatch } = this.props
-
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    })
+    const { addToCart } = this.props
+    addToCart(product)
   }
 
   render() {
@@ -56,6 +53,10 @@ class Home extends Component {
       </Container>
     )
   }
+}
+
+Home.propTypes = {
+  addToCart: PropTypes.func.isRequired,
 }
 
 export default Home

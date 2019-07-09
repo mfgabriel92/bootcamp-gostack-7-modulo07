@@ -1,10 +1,11 @@
 import produce from 'immer'
+import types from './types'
 
 export default function cart(state = [], action) {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case types.ADD_TO_CART:
       return produce(state, draft => {
-        const i = draft.findIndex(p => p.id === action.product.id)
+        const i = draft.findIndex(p => p.id === action.id)
 
         if (i !== -1) {
           draft[i].amount += 1
@@ -17,7 +18,7 @@ export default function cart(state = [], action) {
           })
         }
       })
-    case 'REMOVE_ITEM_CART':
+    case types.REMOVE_FROM_CART:
       return produce(state, draft => {
         const i = draft.findIndex(p => p.id === action.id)
 

@@ -1,6 +1,14 @@
 import { connect } from 'react-redux'
 import Home from './Home'
+import { addToCart } from '../../store/reducers/cart/actions'
 
 const mapStateToProps = () => ({})
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = {
+  addToCart,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

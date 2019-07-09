@@ -9,17 +9,8 @@ import {
 import { Container, Products, Actions, Footer, Total } from './styles'
 
 class Cart extends Component {
-  handleDeleteItem = id => {
-    const { dispatch } = this.props
-
-    dispatch({
-      type: 'REMOVE_ITEM_CART',
-      id,
-    })
-  }
-
   renderCart = () => {
-    const { cart } = this.props
+    const { cart, removeFromCart } = this.props
 
     if (cart.length === 0) {
       return (
@@ -32,7 +23,7 @@ class Cart extends Component {
     }
 
     return cart.map(product => (
-      <tr>
+      <tr key={product.id}>
         <td>
           <img src={product.image} alt="Shoes" />
         </td>
@@ -55,10 +46,7 @@ class Cart extends Component {
           <strong>{product.totalPrice}</strong>
         </td>
         <td>
-          <button
-            type="button"
-            onClick={() => this.handleDeleteItem(product.id)}
-          >
+          <button type="button" onClick={() => removeFromCart(product.id)}>
             <MdDelete size={20} color="#7159c1" />
           </button>
         </td>
@@ -98,7 +86,8 @@ class Cart extends Component {
 }
 
 Cart.propTypes = {
-  cart: PropTypes.shape().isRequired,
+  cart: PropTypes.array.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
 }
 
 export default Cart
