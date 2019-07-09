@@ -1,87 +1,52 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { Container, List, Item, Info, Button } from './styles'
+import Api from '../../services/api'
+import { formatPrice } from '../../util/format'
 
-const Home = () => {
-  return (
-    <Container>
-      <List>
-        <Item>
-          <img
-            src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.zgcvRMRk2fek23hQ6AgW2QHaHa%26pid%3DApi&f=1"
-            alt=""
-          />
+class Home extends Component {
+  state = {
+    products: [],
+  }
 
-          <Info>
-            <strong>Very nice shoes</strong>
-            <span>$999,00</span>
-          </Info>
+  async componentDidMount() {
+    const response = await Api.get('/products')
+    const data = response.data.map(product => ({
+      ...product,
+      formattedPrice: formatPrice(product.price),
+    }))
 
-          <Button>
-            <div>
-              <MdAddShoppingCart size={22} color="#FFF" /> 1
-            </div>
+    this.setState({ products: data })
+  }
 
-            <span>Add to Cart</span>
-          </Button>
-        </Item>
-        <Item>
-          <img
-            src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.zgcvRMRk2fek23hQ6AgW2QHaHa%26pid%3DApi&f=1"
-            alt=""
-          />
-          <Info>
-            <strong>Very nice shoes</strong>
-            <span>$999,00</span>
-          </Info>
+  render() {
+    const { products } = this.state
 
-          <Button>
-            <div>
-              <MdAddShoppingCart size={22} color="#FFF" /> 1
-            </div>
+    return (
+      <Container>
+        <List>
+          {products.map(product => (
+            <Item key={product.id}>
+              <img src={product.image} alt={product.title} />
 
-            <span>Add to Cart</span>
-          </Button>
-        </Item>
-        <Item>
-          <img
-            src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.zgcvRMRk2fek23hQ6AgW2QHaHa%26pid%3DApi&f=1"
-            alt=""
-          />
-          <Info>
-            <strong>Very nice shoes</strong>
-            <span>$999,00</span>
-          </Info>
+              <Info>
+                <strong>{product.title}</strong>
+                <span>{product.formattedPrice}</span>
+              </Info>
 
-          <Button>
-            <div>
-              <MdAddShoppingCart size={22} color="#FFF" /> 1
-            </div>
+              <Button>
+                <div>
+                  <MdAddShoppingCart size={22} color="#FFF" /> 1
+                </div>
 
-            <span>Add to Cart</span>
-          </Button>
-        </Item>
-        <Item>
-          <img
-            src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.zgcvRMRk2fek23hQ6AgW2QHaHa%26pid%3DApi&f=1"
-            alt=""
-          />
-          <Info>
-            <strong>Very nice shoes</strong>
-            <span>$999,00</span>
-          </Info>
-
-          <Button>
-            <div>
-              <MdAddShoppingCart size={22} color="#FFF" /> 1
-            </div>
-
-            <span>Add to Cart</span>
-          </Button>
-        </Item>
-      </List>
-    </Container>
-  )
+                <span>Add to Cart</span>
+              </Button>
+            </Item>
+          ))}
+        </List>
+      </Container>
+    )
+  }
 }
 
 export default Home
