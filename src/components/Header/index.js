@@ -1,24 +1,8 @@
-import React from 'react'
-import { MdShoppingCart } from 'react-icons/md'
-import { Container, Logo, Cart } from './styles'
-import logo from '../../assets/logo.png'
+import { connect } from 'react-redux'
+import Header from './Header'
 
-const Header = () => {
-  return (
-    <Container>
-      <Logo to="/">
-        <img src={logo} alt="Rocketshoes" />
-      </Logo>
+const stateToProps = state => ({
+  cartQtd: state.cart.length,
+})
 
-      <Cart to="/cart">
-        <div>
-          <strong>My Cart</strong>
-          <span>0 items</span>
-        </div>
-        <MdShoppingCart size={32} color="#FFF" />
-      </Cart>
-    </Container>
-  )
-}
-
-export default Header
+export default connect(stateToProps)(Header)
