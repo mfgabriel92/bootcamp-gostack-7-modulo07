@@ -7,7 +7,6 @@ import {
   MdCheck,
 } from 'react-icons/md'
 import { Container, Products, Actions, Footer, Total } from './styles'
-import { formatPrice } from '../../util/format'
 
 class Cart extends Component {
   renderCart = () => {
