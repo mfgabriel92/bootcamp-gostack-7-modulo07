@@ -5,4 +5,7 @@ const rootReducer = combineReducers({
   cart,
 })
 
-export default createStore(rootReducer)
+const enhancer =
+  process.env.NODE_ENV === 'development' ? console.tron.createEnhancer() : null
+
+export default createStore(rootReducer, enhancer)

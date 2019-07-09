@@ -24,5 +24,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/prefer-stateless-function': 'off',
     'react/prop-types': [2, { ignore: ['navigation', 'history', 'dispatch'] }],
+    'no-console': ['error', { allow: ['tron'] }],
   },
 }
