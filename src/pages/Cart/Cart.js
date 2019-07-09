@@ -9,6 +9,15 @@ import {
 import { Container, Products, Actions, Footer, Total } from './styles'
 
 class Cart extends Component {
+  handleDeleteItem = id => {
+    const { dispatch } = this.props
+
+    dispatch({
+      type: 'REMOVE_ITEM_CART',
+      id,
+    })
+  }
+
   renderCart = () => {
     const { cart } = this.props
 
@@ -43,10 +52,13 @@ class Cart extends Component {
           </Actions>
         </td>
         <td>
-          <strong>{product.formattedPrice}</strong>
+          <strong>{product.totalPrice}</strong>
         </td>
         <td>
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => this.handleDeleteItem(product.id)}
+          >
             <MdDelete size={20} color="#7159c1" />
           </button>
         </td>
