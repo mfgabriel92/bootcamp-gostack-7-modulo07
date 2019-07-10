@@ -1,4 +1,5 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects'
+import { toast } from 'react-toastify'
 import { addToCartSuccess, updateAmount } from './actions'
 import { formatPrice } from '../../../util/format'
 import Api from '../../../services/api'
@@ -11,7 +12,7 @@ function* addToCart({ id }) {
   const amount = currentAmount + 1
 
   if (amount > stock.data.amount) {
-    console.tron.warn('Error. Product not in stock')
+    toast.error('Product quantity out of stock!')
     return
   }
 
