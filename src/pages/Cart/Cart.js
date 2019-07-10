@@ -53,7 +53,7 @@ class Cart extends Component {
           </Actions>
         </td>
         <td>
-          <strong>{product.totalPrice}</strong>
+          <strong>{product.subtotal}</strong>
         </td>
         <td>
           <button type="button" onClick={() => removeFromCart(product.id)}>
@@ -65,6 +65,8 @@ class Cart extends Component {
   }
 
   render() {
+    const { cart, total } = this.props
+
     return (
       <Container>
         <Products>
@@ -78,18 +80,20 @@ class Cart extends Component {
           <tbody>{this.renderCart()}</tbody>
         </Products>
 
-        <Footer>
-          <button type="button">
-            <div>
-              <MdCheck size={22} color="#fff" />
-              <span>Proceed</span>
-            </div>
-          </button>
-          <Total>
-            <span>Total</span>
-            <strong>$999,00</strong>
-          </Total>
-        </Footer>
+        {cart.length > 0 && (
+          <Footer>
+            <button type="button">
+              <div>
+                <MdCheck size={22} color="#fff" />
+                <span>Proceed</span>
+              </div>
+            </button>
+            <Total>
+              <span>Total</span>
+              <strong>{total}</strong>
+            </Total>
+          </Footer>
+        )}
       </Container>
     )
   }
@@ -97,6 +101,7 @@ class Cart extends Component {
 
 Cart.propTypes = {
   cart: PropTypes.array.isRequired,
+  total: PropTypes.number.isRequired,
   removeFromCart: PropTypes.func.isRequired,
   updateAmount: PropTypes.func.isRequired,
 }

@@ -9,12 +9,10 @@ export default function cart(state = [], action) {
 
         if (i !== -1) {
           draft[i].amount += 1
-          draft[i].totalPrice = draft[i].price * draft[i].amount
         } else {
           draft.push({
             ...action.product,
             amount: 1,
-            totalPrice: action.product.price,
           })
         }
       })
