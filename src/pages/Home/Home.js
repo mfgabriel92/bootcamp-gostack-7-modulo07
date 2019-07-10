@@ -36,7 +36,7 @@ class Home extends Component {
                 <span>{product.formattedPrice}</span>
               </Info>
 
-              <Button onClick={() => addToCart(product)}>
+              <Button onClick={() => addToCart(product.id)}>
                 <div>
                   <MdAddShoppingCart size={22} color="#FFF" />
                   {amount[product.id] || 0}
@@ -54,11 +54,7 @@ class Home extends Component {
 
 Home.propTypes = {
   addToCart: PropTypes.func.isRequired,
-  amount: PropTypes.number,
-}
-
-Home.defaultProps = {
-  amount: 0,
+  amount: PropTypes.object.isRequired,
 }
 
 export default Home

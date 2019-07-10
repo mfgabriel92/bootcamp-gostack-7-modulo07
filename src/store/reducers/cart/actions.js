@@ -1,8 +1,15 @@
 import types from './types'
 
-export function addToCart(product) {
+export function addToCart(id) {
   return {
     type: types.ADD_TO_CART,
+    id,
+  }
+}
+
+export function addToCartSuccess(product) {
+  return {
+    type: types.ADD_TO_CART_SUCCESS,
     product,
   }
 }
