@@ -13,3 +13,11 @@ export function removeFromCart(id) {
     id,
   }
 }
+
+export function updateAmount(id, amount) {
+  return {
+    type: types.UPDATE_AMOUNT,
+    id,
+    amount,
+  }
+}

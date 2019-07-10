@@ -9,6 +9,16 @@ import {
 import { Container, Products, Actions, Footer, Total } from './styles'
 
 class Cart extends Component {
+  increment = ({ id, amount }) => {
+    const { updateAmount } = this.props
+    updateAmount(id, amount + 1)
+  }
+
+  decrement = ({ id, amount }) => {
+    const { updateAmount } = this.props
+    updateAmount(id, amount - 1)
+  }
+
   renderCart = () => {
     const { cart, removeFromCart } = this.props
 
@@ -33,11 +43,11 @@ class Cart extends Component {
         </td>
         <td>
           <Actions>
-            <button type="button">
+            <button type="button" onClick={() => this.decrement(product)}>
               <MdRemoveCircleOutline size={20} color="#7159c1" />
             </button>
             <input type="text" value={product.amount} readOnly />
-            <button type="button">
+            <button type="button" onClick={() => this.increment(product)}>
               <MdAddCircleOutline size={20} color="#7159c1" />
             </button>
           </Actions>
@@ -88,6 +98,7 @@ class Cart extends Component {
 Cart.propTypes = {
   cart: PropTypes.array.isRequired,
   removeFromCart: PropTypes.func.isRequired,
+  updateAmount: PropTypes.func.isRequired,
 }
 
 export default Cart
