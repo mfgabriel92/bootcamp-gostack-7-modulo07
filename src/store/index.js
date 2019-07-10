@@ -6,7 +6,13 @@ import cart from './reducers/cart/index'
 const rootReducer = combineReducers({
   cart,
 })
-const sagaMiddleware = createSagaMiddleware()
+
+let sagaMonitor = null
+if (process.env.NODE_ENV === 'development') {
+  sagaMonitor = console.tron.createSagaMonitor()
+}
+
+const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
 
 let enhancer = applyMiddleware(sagaMiddleware)
 if (process.env.NODE_ENV === 'development') {
