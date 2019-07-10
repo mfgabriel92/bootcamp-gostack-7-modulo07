@@ -15,11 +15,7 @@ export default function cart(state = [], action) {
           draft.splice(i, 1)
         }
       })
-    case types.UPDATE_AMOUNT: {
-      if (action.amount <= 0) {
-        return state
-      }
-
+    case types.UPDATE_AMOUNT_SUCCESS: {
       return produce(state, draft => {
         const i = draft.findIndex(p => p.id === action.id)
 

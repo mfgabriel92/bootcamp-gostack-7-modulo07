@@ -1,6 +1,6 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
-import { addToCartSuccess, updateAmount } from './actions'
+import { addToCartSuccess, updateAmountSuccess } from './actions'
 import { formatPrice } from '../../../util/format'
 import Api from '../../../services/api'
 import types from './types'
@@ -17,7 +17,7 @@ function* addToCart({ id }) {
   }
 
   if (existing) {
-    yield put(updateAmount(id, amount))
+    yield put(updateAmountSuccess(id, amount))
     return
   }
 
@@ -31,4 +31,20 @@ function* addToCart({ id }) {
   yield put(addToCartSuccess(data))
 }
 
-export default all([takeLatest(types.ADD_TO_CART, addToCart)])
+function* updateAmount({ id, amount }) {
+  if (amount <= 0) return
+
+  const stock = yield call(Api.get, `/stock/${id}`)
+
+  if (amount > stock.data.amount) {
+    toast.error('Product quantity out of stock!')
+    return
+  }
+
+  yield put(updateAmountSuccess(id, amount))
+}
+
+export default all([
+  takeLatest(types.ADD_TO_CART, addToCart),
+  takeLatest(types.UPDATE_AMOUNT, updateAmount),
+])

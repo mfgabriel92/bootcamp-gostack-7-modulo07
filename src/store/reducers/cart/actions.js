@@ -28,3 +28,11 @@ export function updateAmount(id, amount) {
     amount,
   }
 }
+
+export function updateAmountSuccess(id, amount) {
+  return {
+    type: types.UPDATE_AMOUNT_SUCCESS,
+    id,
+    amount,
+  }
+}
