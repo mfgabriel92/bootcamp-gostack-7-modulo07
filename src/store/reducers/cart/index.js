@@ -5,7 +5,7 @@ export default function cart(state = [], action) {
   switch (action.type) {
     case types.ADD_TO_CART:
       return produce(state, draft => {
-        const i = draft.findIndex(p => p.id === action.id)
+        const i = draft.findIndex(p => p.id === action.product.id)
 
         if (i !== -1) {
           draft[i].amount += 1

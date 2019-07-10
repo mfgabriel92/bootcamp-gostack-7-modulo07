@@ -20,13 +20,9 @@ class Home extends Component {
     this.setState({ products: data })
   }
 
-  handleAddToCart = product => {
-    const { addToCart } = this.props
-    addToCart(product)
-  }
-
   render() {
     const { products } = this.state
+    const { addToCart, amount } = this.props
 
     return (
       <Container>
@@ -40,9 +36,10 @@ class Home extends Component {
                 <span>{product.formattedPrice}</span>
               </Info>
 
-              <Button onClick={() => this.handleAddToCart(product)}>
+              <Button onClick={() => addToCart(product)}>
                 <div>
-                  <MdAddShoppingCart size={22} color="#FFF" /> 1
+                  <MdAddShoppingCart size={22} color="#FFF" />
+                  {amount[product.id] || 0}
                 </div>
 
                 <span>Add to Cart</span>
@@ -57,6 +54,11 @@ class Home extends Component {
 
 Home.propTypes = {
   addToCart: PropTypes.func.isRequired,
+  amount: PropTypes.number,
+}
+
+Home.defaultProps = {
+  amount: 0,
 }
 
 export default Home
