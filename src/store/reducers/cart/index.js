@@ -5,16 +5,7 @@ export default function cart(state = [], action) {
   switch (action.type) {
     case types.ADD_TO_CART_SUCCESS:
       return produce(state, draft => {
-        const i = draft.findIndex(p => p.id === action.product.id)
-
-        if (i !== -1) {
-          draft[i].amount += 1
-        } else {
-          draft.push({
-            ...action.product,
-            amount: 1,
-          })
-        }
+        draft.push(action.product)
       })
     case types.REMOVE_FROM_CART:
       return produce(state, draft => {
