@@ -6,19 +6,28 @@ import types from './types'
 
 function* addToCart({ id }) {
   const existing = yield select(state => state.cart.find(p => p.id === id))
+  const stock = yield call(Api.get, `/stock/${id}`)
+  const currentAmount = existing ? existing.amount : 0
+  const amount = currentAmount + 1
 
-  if (!existing) {
-    const response = yield call(Api.get, `/products/${id}`)
-    const data = {
-      ...response.data,
-      amount: 1,
-      formattedPrice: formatPrice(response.data.price),
-    }
-
-    yield put(addToCartSuccess(data))
-  } else {
-    yield put(updateAmount(id, existing.amount + 1))
+  if (amount > stock.data.amount) {
+    console.tron.warn('Error. Product not in stock')
+    return
   }
+
+  if (existing) {
+    yield put(updateAmount(id, amount))
+    return
+  }
+
+  const response = yield call(Api.get, `/products/${id}`)
+  const data = {
+    ...response.data,
+    amount: 1,
+    formattedPrice: formatPrice(response.data.price),
+  }
+
+  yield put(addToCartSuccess(data))
 }
 
 export default all([takeLatest(types.ADD_TO_CART, addToCart)])
