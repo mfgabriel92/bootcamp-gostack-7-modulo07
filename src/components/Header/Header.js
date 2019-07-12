@@ -1,29 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import PropTypes from 'prop-types'
 import { Container, Logo, Cart } from './styles'
 import logo from '../../assets/logo.png'
 
-class Header extends Component {
-  render() {
-    const { cartQtd } = this.props
+const Header = ({ cartQtd }) => {
+  return (
+    <Container>
+      <Logo to="/">
+        <img src={logo} alt="Rocketshoes" />
+      </Logo>
 
-    return (
-      <Container>
-        <Logo to="/">
-          <img src={logo} alt="Rocketshoes" />
-        </Logo>
-
-        <Cart to="/cart">
-          <div>
-            <strong>My Cart</strong>
-            <span>{cartQtd} items</span>
-          </div>
-          <MdShoppingCart size={32} color="#FFF" />
-        </Cart>
-      </Container>
-    )
-  }
+      <Cart to="/cart">
+        <div>
+          <strong>My Cart</strong>
+          <span>{cartQtd} items</span>
+        </div>
+        <MdShoppingCart size={32} color="#FFF" />
+      </Cart>
+    </Container>
+  )
 }
 
 Header.propTypes = {

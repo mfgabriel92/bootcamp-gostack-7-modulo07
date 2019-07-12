@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   MdRemoveCircleOutline,
@@ -8,20 +8,16 @@ import {
 } from 'react-icons/md'
 import { Container, Products, Actions, Footer, Total } from './styles'
 
-class Cart extends Component {
-  increment = ({ id, amount }) => {
-    const { updateAmount } = this.props
+const Cart = ({ cart, total, updateAmount, removeFromCart }) => {
+  const increment = ({ id, amount }) => {
     updateAmount(id, amount + 1)
   }
 
-  decrement = ({ id, amount }) => {
-    const { updateAmount } = this.props
+  const decrement = ({ id, amount }) => {
     updateAmount(id, amount - 1)
   }
 
-  renderCart = () => {
-    const { cart, removeFromCart } = this.props
-
+  const renderCart = () => {
     if (cart.length === 0) {
       return (
         <tr style={{ textAlign: 'center', color: '#333' }}>
@@ -43,11 +39,11 @@ class Cart extends Component {
         </td>
         <td>
           <Actions>
-            <button type="button" onClick={() => this.decrement(product)}>
+            <button type="button" onClick={() => decrement(product)}>
               <MdRemoveCircleOutline size={20} color="#7159c1" />
             </button>
             <input type="text" value={product.amount} readOnly />
-            <button type="button" onClick={() => this.increment(product)}>
+            <button type="button" onClick={() => increment(product)}>
               <MdAddCircleOutline size={20} color="#7159c1" />
             </button>
           </Actions>
@@ -64,39 +60,35 @@ class Cart extends Component {
     ))
   }
 
-  render() {
-    const { cart, total } = this.props
+  return (
+    <Container>
+      <Products>
+        <thead>
+          <th />
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th />
+        </thead>
+        <tbody>{renderCart()}</tbody>
+      </Products>
 
-    return (
-      <Container>
-        <Products>
-          <thead>
-            <th />
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th />
-          </thead>
-          <tbody>{this.renderCart()}</tbody>
-        </Products>
-
-        {cart.length > 0 && (
-          <Footer>
-            <button type="button">
-              <div>
-                <MdCheck size={22} color="#fff" />
-                <span>Proceed</span>
-              </div>
-            </button>
-            <Total>
-              <span>Total</span>
-              <strong>{total}</strong>
-            </Total>
-          </Footer>
-        )}
-      </Container>
-    )
-  }
+      {cart.length > 0 && (
+        <Footer>
+          <button type="button">
+            <div>
+              <MdCheck size={22} color="#fff" />
+              <span>Proceed</span>
+            </div>
+          </button>
+          <Total>
+            <span>Total</span>
+            <strong>{total}</strong>
+          </Total>
+        </Footer>
+      )}
+    </Container>
+  )
 }
 
 Cart.propTypes = {

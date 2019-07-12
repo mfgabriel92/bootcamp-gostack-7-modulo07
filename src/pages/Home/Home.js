@@ -1,55 +1,52 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { MdAddShoppingCart } from 'react-icons/md'
 import { Container, List, Item, Info, Button } from './styles'
 import Api from '../../services/api'
 import { formatPrice } from '../../util/format'
 
-class Home extends Component {
-  state = {
-    products: [],
-  }
+const Home = ({ amount, addToCart }) => {
+  const [products, setProducts] = useState([])
 
-  async componentDidMount() {
-    const response = await Api.get('/products')
-    const data = response.data.map(product => ({
-      ...product,
-      formattedPrice: formatPrice(product.price),
-    }))
+  useEffect(() => {
+    const loadProducts = async () => {
+      const response = await Api.get('/products')
+      const data = response.data.map(product => ({
+        ...product,
+        formattedPrice: formatPrice(product.price),
+      }))
 
-    this.setState({ products: data })
-  }
+      setProducts(data)
+    }
 
-  render() {
-    const { products } = this.state
-    const { addToCart, amount } = this.props
+    loadProducts()
+  }, [])
 
-    return (
-      <Container>
-        <List>
-          {products.map(product => (
-            <Item key={product.id}>
-              <img src={product.image} alt={product.title} />
+  return (
+    <Container>
+      <List>
+        {products.map(product => (
+          <Item key={product.id}>
+            <img src={product.image} alt={product.title} />
 
-              <Info>
-                <strong>{product.title}</strong>
-                <span>{product.formattedPrice}</span>
-              </Info>
+            <Info>
+              <strong>{product.title}</strong>
+              <span>{product.formattedPrice}</span>
+            </Info>
 
-              <Button onClick={() => addToCart(product.id)}>
-                <div>
-                  <MdAddShoppingCart size={22} color="#FFF" />
-                  {amount[product.id] || 0}
-                </div>
+            <Button onClick={() => addToCart(product.id)}>
+              <div>
+                <MdAddShoppingCart size={22} color="#FFF" />
+                {amount[product.id] || 0}
+              </div>
 
-                <span>Add to Cart</span>
-              </Button>
-            </Item>
-          ))}
-        </List>
-      </Container>
-    )
-  }
+              <span>Add to Cart</span>
+            </Button>
+          </Item>
+        ))}
+      </List>
+    </Container>
+  )
 }
 
 Home.propTypes = {
